@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Someone tagged you</title>
+<meta name="description" content="A friend shared something with Tagg. Save it to your Tagg.">
+<meta property="og:title" content="You've been tagged">
+<meta property="og:description" content="Tap to see what a friend shared and save it to your Tagg.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Limelight&family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --navy:#141C33; --gold:#D4AF5A; --cream:#F3E9D2; --muted:#C9C1AE; }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; background:var(--navy); color:var(--cream);
+         font-family:"Josefin Sans", -apple-system, "Helvetica Neue", Arial, sans-serif;
+         display:flex; justify-content:center; padding:28px 16px 48px; }
+  main { width:100%; max-width:420px; text-align:center; position:relative; }
+  .frame { border:1px solid rgba(212,175,90,.55); border-radius:28px; padding:34px 22px 30px;
+           box-shadow: inset 0 0 0 6px var(--navy), inset 0 0 0 7px rgba(212,175,90,.25); }
+  .fan { display:block; margin:0 auto; }
+  .brand { font-family:"Limelight", Georgia, serif; font-size:44px; letter-spacing:7px; margin:6px 0 0; padding-left:7px; }
+  .rule { display:flex; align-items:center; justify-content:center; gap:9px; margin:10px 0 0; }
+  .rule i { display:block; width:18px; height:1px; background:var(--gold); }
+  .rule b { display:block; width:6px; height:6px; background:var(--gold); transform:rotate(45deg); }
+  .rule span { font-size:10px; font-weight:600; letter-spacing:2.2px; white-space:nowrap; color:var(--gold); }
+  h1 { font-family:"Limelight", Georgia, serif; font-weight:400; font-size:24px; letter-spacing:1px; margin:26px 0 16px; }
+  .card { border:1px solid rgba(212,175,90,.75); border-radius:6px; padding:22px 18px;
+          box-shadow: inset 0 0 0 4px var(--accent, #24315A), inset 0 0 0 5px rgba(212,175,90,.45);
+          background:var(--accent, #24315A); display:flex; align-items:center; gap:16px; text-align:left; }
+  .card svg { flex:none; }
+  .kind { font-size:11px; font-weight:700; letter-spacing:2.5px; color:var(--gold); margin:0; }
+  .title { font-family:"Limelight", Georgia, serif; font-size:22px; line-height:1.15; margin:4px 0 0; overflow-wrap:anywhere; }
+  .detail { font-size:14px; color:var(--muted); margin:4px 0 0; overflow-wrap:anywhere; }
+  .btn { display:block; width:100%; padding:16px; border-radius:30px; font-size:16px; font-weight:700;
+         letter-spacing:1.5px; text-decoration:none; margin-top:14px; }
+  .primary { background:var(--gold); color:var(--navy); margin-top:26px; }
+  .secondary { color:var(--cream); border:1px solid rgba(212,175,90,.6); }
+  .note { font-size:13px; color:var(--muted); margin-top:18px; line-height:1.5; }
+  .hidden { display:none; }
+</style>
+</head>
+<body>
+<main>
+<div class="frame">
+  <svg class="fan" width="64" height="32" viewBox="0 0 72 36" aria-hidden="true">
+    <g fill="none" stroke="#D4AF5A" stroke-width="1.6" stroke-linecap="round">
+      <path d="M4 34 A32 32 0 0 1 68 34"/><path d="M16 34 A20 20 0 0 1 56 34"/>
+      <line x1="36" y1="34" x2="36" y2="4"/><line x1="36" y1="34" x2="14" y2="12"/><line x1="36" y1="34" x2="58" y2="12"/>
+      <line x1="36" y1="34" x2="6" y2="24"/><line x1="36" y1="34" x2="66" y2="24"/>
+    </g>
+  </svg>
+  <p class="brand">TAGG</p>
+  <div class="rule"><i></i><b></b><span>SHARE WHAT YOU'RE INTO</span><b></b><i></i></div>
+
+  <div id="tagged" class="hidden">
+    <h1 id="headline">You've been tagged</h1>
+    <div class="card" id="card">
+      <svg id="icon" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"></svg>
+      <div>
+        <p class="kind" id="kind"></p>
+        <p class="title" id="title"></p>
+        <p class="detail" id="detail"></p>
+      </div>
+    </div>
+    <a class="btn primary" id="get" href="#">GET TAGG ON THE APP STORE</a>
+    <a class="btn secondary" id="open" href="#">Already have Tagg? Open it</a>
+    <p class="note">Tagg is free. After installing, come back and tap <b>Open it</b>, or tap the link in your messages again, to save this to Friends' Taggs.</p>
+  </div>
+
+  <div id="empty" class="hidden">
+    <h1>Share what you're into</h1>
+    <p class="note">Films, TV shows, books, food and music. Say it, and Tagg sends it with all the right links.</p>
+    <a class="btn primary" id="get2" href="#">GET TAGG ON THE APP STORE</a>
+  </div>
+</div>
+</main>
+<script>
+  const APP_STORE = "https://apps.apple.com/app/id6814254670";
+  document.getElementById("get").href = APP_STORE;
+  document.getElementById("get2").href = APP_STORE;
+
+  // Each kind: label, tile color, gold line emblem (same as the app's home screen)
+  const G = 'fill="none" stroke="#D4AF5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  const KINDS = {
+    film:  ["FILM", "#5E2330", `<g ${G}><circle cx="22" cy="22" r="17"/><circle cx="22" cy="22" r="3"/><circle cx="22" cy="12" r="4"/><circle cx="31.5" cy="19" r="4"/><circle cx="28" cy="30.5" r="4"/><circle cx="16" cy="30.5" r="4"/><circle cx="12.5" cy="19" r="4"/><path d="M22 39 H44"/></g>`],
+    tv:    ["TV SHOW", "#1F4F55", `<g ${G}><path d="M24 13 L15 4.5 M24 13 L34 5"/><rect x="4.5" y="14" width="39" height="26" rx="5"/><rect x="8.5" y="18" width="24" height="18" rx="4"/><circle cx="38" cy="22" r="2"/><circle cx="38" cy="29" r="2"/><path d="M11 40 L9 44 M37 40 L39 44"/></g>`],
+    book:  ["BOOK", "#2F4630", `<g ${G}><path d="M24 18 C18 14 10 14 5 16 V40 C10 38 18 38 24 42 C30 38 38 38 43 40 V16 C38 14 30 14 24 18 Z"/><path d="M24 18 V42"/><path d="M24 11 V4 M17 12 L13 6 M31 12 L35 6"/></g>`],
+    food:  ["FOOD", "#6B3E22", `<g ${G}><path d="M8 34 A16 16 0 0 1 40 34"/><path d="M4 34 H44 M8 39 H40"/><circle cx="24" cy="15" r="2.5"/><path d="M15 27 A10 10 0 0 1 20 22"/></g>`],
+    music: ["MUSIC", "#41294F", `<g ${G}><circle cx="20" cy="28" r="15"/><circle cx="20" cy="28" r="9" opacity="0.6"/><circle cx="20" cy="28" r="3"/><path d="M42 5 V18 L29 26"/><circle cx="42" cy="5" r="1.5"/></g>`]
+  };
+
+  // Link format: #1 + base64url("kind|title|detail|from")
+  function decode(payload) {
+    if (!payload.startsWith("1")) return null;
+    let s = payload.slice(1).replace(/-/g, "+").replace(/_/g, "/");
+    while (s.length % 4) s += "=";
+    const bytes = Uint8Array.from(atob(s), c => c.charCodeAt(0));
+    const [kind, title, detail, from] = new TextDecoder().decode(bytes).split("|");
+    return { kind, title, detail, from };
+  }
+
+  const payload = location.hash.slice(1);
+  let tag = null;
+  try { tag = payload ? decode(payload) : null; } catch (e) { tag = null; }
+
+  if (tag && tag.title && KINDS[tag.kind]) {
+    const [label, color, emblem] = KINDS[tag.kind];
+    const from = (tag.from || "").trim() || "A friend";
+    document.title = `${from} tagged you · ${tag.title}`;
+    document.getElementById("headline").textContent = `${from} tagged you`;
+    document.getElementById("card").style.setProperty("--accent", color);
+    document.getElementById("icon").innerHTML = emblem;
+    document.getElementById("kind").textContent = label;
+    document.getElementById("title").textContent = tag.title;
+    document.getElementById("detail").textContent = tag.detail || "";
+    document.getElementById("open").href = "tagg://t/#" + payload;
+    document.getElementById("tagged").classList.remove("hidden");
+  } else {
+    document.getElementById("empty").classList.remove("hidden");
+  }
+</script>
+</body>
+</html>
