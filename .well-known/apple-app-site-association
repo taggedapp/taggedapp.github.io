@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["V86ND4F3SD.Tagged.Tagg"],
+        "components": [
+          { "/": "/t/*", "comment": "Shared Taggs" }
+        ]
+      }
+    ]
+  }
+}
